@@ -5,9 +5,9 @@ import time
 import os
 import glob
 from tqdm import tqdm
-from progetto.mamba3 import Mamba3Config, get_device
-from progetto.Dataset_CiCDDoS import CICDDoSCombinedDataset
-from progetto.Model import Mamba3MultiClass
+from mamba3 import Mamba3Config, get_device
+from Dataset_CiCDDoS import CICDDoSCombinedDataset
+from Model import Mamba3MultiClass
 
 def format_time(seconds):
     mins, secs = divmod(seconds, 60)
@@ -33,7 +33,7 @@ def train():
     start_time_total = time.time()
 
     # 1. SELEZIONE FILE BASATA SUL NOME
-    data_folder = "." 
+    data_folder = "/dataset" 
     train_files = glob.glob(os.path.join(data_folder, "*-training.parquet"))
     test_files = glob.glob(os.path.join(data_folder, "*-testing.parquet"))
     

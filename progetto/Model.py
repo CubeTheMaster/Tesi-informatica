@@ -1,5 +1,5 @@
 import torch.nn as nn
-from progetto.mamba3 import Mamba3LMHeadModel
+from mamba3 import Mamba3LMHeadModel
 
 class Mamba3MultiClass(nn.Module):
     def __init__(self, args, input_dim, num_classes):
