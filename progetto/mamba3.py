@@ -64,7 +64,7 @@ class Mamba3Config:
     d_state: int = 128    # SSM state dimension (N). Must be even for RoPE pairing.
     expand: int = 2       # Expansion factor (E). d_inner = expand * d_model
     headdim: int = 64     # Head dimension (P)
-    chunk_size: int = 32  # Matrix partition size for chunked SSD (Q)
+    chunk_size: int = 16  # Matrix partition size for chunked SSD (Q)
     vocab_size: int = 50277
     pad_vocab_size_multiple: int = 16
     use_mimo: bool = False  # Toggle MIMO variant
