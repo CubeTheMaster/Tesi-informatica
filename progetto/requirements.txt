@@ -1,8 +1,8 @@
 torch
-pandas
-numpy
-scikit-learn
 tqdm
+pandas
 pyarrow
-einops
+scikit-learn
+seaborn
+matplotlib
 kagglehub

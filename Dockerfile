@@ -1,20 +1,31 @@
-FROM --platform=linux/arm64 arm64v8/ubuntu:22.04
+# Usa un'immagine Python ufficiale snella
+FROM python:3.10-slim
 
-ENV DEBIAN_FRONTEND=noninteractive
+# Imposta variabili d'ambiente per evitare file temporanei e forzare l'output in tempo reale
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
-RUN apt-get update && apt-get install -y \
-    python3 \
-    python3-pip \
-    dos2unix \
-    && rm -rf /var/lib/apt/lists/*
+# Installa le dipendenze di sistema necessarie per far girare i grafici (Matplotlib/Seaborn)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    && rm -rf /var/lib/apt-get/lists/*
 
+# Imposta la cartella di lavoro all'interno del container
 WORKDIR /app
 
-COPY progetto/requirements.txt .
+# Copia prima solo il file delle dipendenze per sfruttare la cache di Docker
+COPY requirements.txt .
 
-RUN pip3 install --no-cache-dir -r requirements.txt
+# Installa le dipendenze Python (se usi solo CPU, puoi installare la versione CPU di torch per risparmiare spazio, altrimenti l'installazione standard va bene)
+RUN pip install --no-cache-dir -r requirements.txt
 
-COPY progetto/. .
-RUN dos2unix *.py
+# Copia il resto dei file sorgente nella cartella di lavoro
+COPY . .
 
-CMD ["python3", "Training_CiC_2.py"]
+# Crea le cartelle destinate ai dati e ai risultati nel caso in cui non esistessero
+RUN mkdir -p /dataset ./output
+
+# Comando di avvio che lancia l'addestramento aggiornato
+CMD ["python", "Training_CiC_2.py"]
